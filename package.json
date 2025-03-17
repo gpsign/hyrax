@@ -6,6 +6,10 @@
   "scripts": {
     "test": "test"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gpsign/hyrax.git"
+  },
   "author": "gpsign",
   "license": "MIT"
 }
