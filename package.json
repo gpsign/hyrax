@@ -3,13 +3,22 @@
   "version": "0.0.1",
   "description": "Hyrax is a small library I built for myself to make my life easier when working with TypeScript and React.",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
   "scripts": {
-    "test": "test"
+    "dev": "ts-node index.ts"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gpsign/hyrax.git"
   },
   "author": "gpsign",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  }
 }
