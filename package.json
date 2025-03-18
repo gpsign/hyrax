@@ -1,5 +1,5 @@
 {
-  "name": "hyrax",
+  "name": "@gpsign/hyrax",
   "version": "0.0.1",
   "description": "Hyrax is a small library I built for myself to make my life easier when working with TypeScript and React.",
   "main": "dist/index.js",
