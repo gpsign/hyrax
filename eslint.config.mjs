@@ -27,7 +27,7 @@ export default [
     },
   },
   {
-    ignores: ["**/dist/*", "**/testing/*", "**config.**"],
+    ignores: ["**/dist/*", "**/test/*", "**config.**"],
   },
   {
     settings: {
