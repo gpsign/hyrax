@@ -1,5 +1,12 @@
-import { Utils } from "./utils/Utils";
+import { useUpdate } from "./hooks";
+import { Utils } from "./utils";
 
-const hyrax = { Utils };
+export * from "./utils";
+export * from "./hooks";
 
-export default hyrax;
+const Hyrax = {
+  Utils,
+  useUpdate,
+};
+
+export default Hyrax;
