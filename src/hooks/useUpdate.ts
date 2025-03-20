@@ -2,12 +2,11 @@ import { useId, useMemo, useState } from "react";
 import { UpdateHook } from "./types";
 
 /**
- * Hook que retorna uma função para disparar a re-renderização do componente.
+ * Hook that returns a function to trigger the re-rendering of the component.
  *
- * Este hook é ideal para casos em que você deseja atualizar a interface do usuário sem depender de
- * alterações diretas em um estado que afete a renderização.
- *
- * ## Exemplo
+ * This hook is ideal for cases where you want to update the user interface without depending on
+ * direct changes to a state that affects the rendering.
+ * ## Example
  *
  *
  * ```tsx
@@ -15,23 +14,22 @@ import { UpdateHook } from "./types";
  * function DisplayOnClick() {
  *   const update = useUpdate();
  *
- *   // Cria uma referência para o input. O valor digitado não causará re-renderização ao ser alterado.
+ *   // Creates a reference for the input. The value typed will not cause re-rendering when changed.
  *   const inputRef = useRef<HTMLInputElement>(null);
  *
  *   return (
  *     <div>
- *       <input type="text" ref={inputRef} placeholder="Digite algo..." />
- *       <button onClick={update}>Mostrar valor</button>
+ *       <input type="text" ref={inputRef} placeholder="Type here..." />
+ *       <button onClick={update}>Show value</button>
  *       <p>Valor do input: {inputRef.current ? inputRef.current.value : ''}</p>
- *       <p>Número de atualizações: {update.counter}</p>
- *       <small>ID do hook: {update.id}</small>
+ *       <p>Updates: {update.counter}</p>
+ *       <small>Hook ID: {update.id}</small>
  *     </div>
  *   );
  * }
  *
  * ```
- * @returns Uma função de atualização que, além de disparar a re-renderização, possui as propriedades
- * `id` e `counter` para facilitar o rastreamento das atualizações.
+ * @returns An update function that, in addition to triggering re-rendering, has the `id` and `counter` properties.
  */
 export function useUpdate(): UpdateHook {
   const [counter, setCounter] = useState(0);
