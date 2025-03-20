@@ -1,12 +1,12 @@
 /**
- * Retorna o primeiro valor que não seja nulo ou indefinido dentre os argumentos fornecidos.
+ * Returns the first value that is not null or undefined among the provided arguments.
  *
- * @param {...(T[K] | null | undefined)[]} values - Uma lista de valores (em formato de tupla) que podem ser nulos ou indefinidos.
- * @returns {T[number] | null} - O primeiro valor definido encontrado. Se todos os valores forem nulos ou indefinidos, retorna `null`.
+ * @param {...(T[K] | null | undefined)[]} values - A list of values that may be null or undefined.
+ * @returns {T[number] | null} - The first defined value found. If all values are null or undefined, it returns `null`.
  *
- * ### Exemplo
+ * ### Example
  * ```ts
- * nvl(null, undefined, 0, "exemplo"); // Saída: 0
+ * nvl(null, undefined, 0, "example"); // Output: 0
  * ```
  */
 export function nvl<T extends unknown[]>(
