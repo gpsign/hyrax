@@ -16,6 +16,7 @@ import { isNumeric } from "./isNumeric";
  * length([1, 2, 3]); // returns 3
  * length(12345); // returns 5 (length of the number as a string)
  * length({ length: 10 }); // returns 10
+ * length({ name: "Hyrax", awawa: true }); // returns 2
  * length(null); // returns 0
  * length(() => {}); // returns 0 (length of the function's argument list)
  * ```
@@ -30,5 +31,5 @@ export function length(value: unknown): number {
   if ("length" in value && typeof value.length === "number")
     return value.length;
 
-  return 0;
+  return Object.keys(value).length;
 }

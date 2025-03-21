@@ -15,5 +15,8 @@ import { Numeric } from "./types";
  * ```
  */
 export function isNumeric(value: unknown): value is Numeric {
+  const type = typeof value;
+  if (type != "string" && type != "bigint" && type != "number") return false;
+  if (value === "") return false;
   return !isNaN(Number(value));
 }
