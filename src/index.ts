@@ -1,8 +1,9 @@
 import * as hooks from "./hooks";
 import * as utils from "./utils";
 
-export * from "./utils";
 export * from "./hooks";
+export * from "./types";
+export * from "./utils";
 
 const Hyrax = {
   health(): number {
