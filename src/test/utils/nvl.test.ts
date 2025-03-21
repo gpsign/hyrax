@@ -1,6 +1,6 @@
 import { nvl } from "../../utils";
 
-describe("Testing nvl", () => {
+describe("nvl", () => {
   it("should return null if all values are null or undefined", () => {
     expect(nvl(null, undefined, null)).toBeNull();
   });
