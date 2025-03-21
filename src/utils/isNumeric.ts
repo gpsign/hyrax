@@ -1,4 +1,4 @@
-import { Numeric } from "./types/isNumeric.types";
+import { Numeric } from "./types";
 
 /**
  * Checks if a value is a number or a string that can be coerced into a number.
