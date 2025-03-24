@@ -3,6 +3,8 @@ export interface AudioRecorder {
   state: AudioRecorderState;
   url: string | null;
   error: string | null;
+  blob: Blob | null;
+  done: boolean;
 }
 export interface AudioRecorderHook extends AudioRecorder {
   /**
@@ -49,6 +51,15 @@ export interface AudioRecorderHook extends AudioRecorder {
    * @returns A promise that resolves when the cancellation operation is complete.
    */
   cancel: () => Promise<void>;
+
+  /**
+   * Resets the internal state.
+   *
+   * This method resets the recorder state to its initial state.
+   *
+   * @returns A promise that resolves when the reset operation is complete.
+   */
+  reset: () => Promise<void>;
 
   /**
    * Requests the current audio data recorded so far.

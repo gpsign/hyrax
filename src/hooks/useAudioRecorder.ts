@@ -1,6 +1,14 @@
 import { useRef, useState } from "react";
-import { AudioRecorder, AudioRecorderHook } from "./types";
 import { noop } from "../utils";
+import { AudioRecorder, AudioRecorderHook } from "./types";
+
+const initial: AudioRecorder = {
+  state: "inactive",
+  url: null,
+  error: null,
+  done: false,
+  blob: null,
+};
 
 /**
  * Hook that provides audio recording functionality.
@@ -27,9 +35,7 @@ import { noop } from "../utils";
  */
 export function useAudioRecorder(): AudioRecorderHook {
   const [recorder, setRecorder] = useState<AudioRecorder>({
-    state: "inactive",
-    url: null,
-    error: null,
+    ...initial,
   });
 
   const paused = recorder.state === "paused";
@@ -41,20 +47,23 @@ export function useAudioRecorder(): AudioRecorderHook {
   const resolveAudio = useRef(noop);
   const resolveStop = useRef(noop);
 
+  const mediaRecorder = mediaRecorderRef.current;
+
   /**
    * Using the current audioChunks, creates a Blob and then creates an ObjectURL
    * @returns ObjectURL generated with the current audioChunks
    */
-  const generateUrl = () => {
+  const generateBlob = () => {
     const blob = new Blob(audioChunksRef.current, { type: "audio/webm" });
-    return URL.createObjectURL(blob);
+    const url = URL.createObjectURL(blob);
+    return { url, blob };
   };
 
   const requestData = async (): Promise<Blob[]> => {
     const audioPromise = new Promise<Blob[]>((resolve) => {
       resolveAudio.current = resolve;
-      if (!mediaRecorderRef.current) return resolve([]);
-      mediaRecorderRef.current.requestData();
+      if (!mediaRecorder) return resolve([]);
+      mediaRecorder.requestData();
     });
 
     const blob = await audioPromise;
@@ -65,8 +74,8 @@ export function useAudioRecorder(): AudioRecorderHook {
   const requestStop = async () => {
     const stopPromise = new Promise<void>((resolve) => {
       resolveStop.current = resolve;
-      if (!mediaRecorderRef.current) return resolve();
-      mediaRecorderRef.current.stop();
+      if (!mediaRecorder) return resolve();
+      mediaRecorder.stop();
     });
 
     await stopPromise;
@@ -75,27 +84,30 @@ export function useAudioRecorder(): AudioRecorderHook {
   };
 
   const start = async () => {
-    const newRecorder: AudioRecorder = { ...recorder, error: null };
+    const newRecorder: AudioRecorder = {
+      ...recorder,
+      error: null,
+      blob: null,
+      done: false,
+    };
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream);
+      const newMediaRecorder = new MediaRecorder(stream);
       audioChunksRef.current = [];
 
-      mediaRecorder.ondataavailable = (event) => {
+      newMediaRecorder.ondataavailable = (event) => {
         if (event.data.size <= 0) return;
         audioChunksRef.current.push(event.data);
         resolveAudio.current([...audioChunksRef.current]);
       };
 
-      mediaRecorder.onstop = () => {
-        const url = generateUrl();
+      newMediaRecorder.onstop = () => {
         stream.getTracks().forEach((track) => track.stop());
-        setRecorder({ ...recorder, url });
         resolveStop.current();
       };
 
-      mediaRecorder.start();
-      mediaRecorderRef.current = mediaRecorder;
+      newMediaRecorder.start();
+      mediaRecorderRef.current = newMediaRecorder;
       newRecorder.state = "recording";
       newRecorder.url = null;
     } catch (err) {
@@ -106,43 +118,51 @@ export function useAudioRecorder(): AudioRecorderHook {
   };
 
   const pause = async () => {
-    if (!mediaRecorderRef.current || !recording) return;
+    if (!mediaRecorder || !recording) return;
 
-    mediaRecorderRef.current.pause();
+    mediaRecorder.pause();
 
     //Wait for the browser to run 'ondataavailable'
     await requestData();
 
-    const url = generateUrl();
-    setRecorder({ ...recorder, state: "paused", url });
+    const { url, blob } = generateBlob();
+    setRecorder({ ...recorder, state: "paused", url, blob, done: false });
   };
 
   const resume = () => {
-    if (!mediaRecorderRef.current || !paused) return;
-    mediaRecorderRef.current.resume();
-    setRecorder({ ...recorder, state: "recording", url: null });
+    if (!mediaRecorder || !paused) return;
+    mediaRecorder.resume();
+    setRecorder({ ...recorder, state: "recording", url: null, done: false });
   };
 
-  const stop = () => {
-    if (!mediaRecorderRef.current || inactive) return;
-    mediaRecorderRef.current.stop();
-    setRecorder({ ...recorder, state: "inactive" });
+  const stop = async () => {
+    if (!mediaRecorder || inactive) return;
+    await requestStop();
+
+    const { blob, url } = generateBlob();
+
+    setRecorder({ ...recorder, state: "inactive", blob, url, done: true });
+  };
+
+  const reset = async () => {
+    audioChunksRef.current = [];
+
+    await requestStop();
+
+    setRecorder({
+      ...initial,
+    });
   };
 
   const cancel = async () => {
-    if (!mediaRecorderRef.current || inactive) return;
-
-    audioChunksRef.current = [];
-    await requestStop();
-
-    setRecorder({ ...recorder, state: "inactive", url: null });
+    if (!mediaRecorder || inactive) return;
+    await reset();
   };
 
-  const controls = { start, stop, cancel, pause, resume };
+  const controls = { start, stop, cancel, pause, resume, reset, requestData };
 
   return {
-    requestData,
-    mediaRecorder: mediaRecorderRef.current,
+    mediaRecorder,
     ...recorder,
     ...controls,
   };
