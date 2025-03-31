@@ -47,7 +47,7 @@ export default function useHTMLEventListener<
   const callback = useCallback(listener, [listener, ...dependecy]);
 
   const element =
-    typeof ref === "object" && "current" in ref ? ref.current : ref;
+    ref && typeof ref === "object" && "current" in ref ? ref.current : ref;
 
   useEffect(() => {
     if (!element) return;
