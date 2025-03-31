@@ -1,1 +1,1 @@
-export type Numeric = string | number;
+export type Numeric = `${number}` | number;
