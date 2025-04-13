@@ -6,7 +6,7 @@ import { nvl } from "../utils";
 export function Portal(props: PortalProps) {
   const { children, disabled, transient } = props;
   const defId = React.useId();
-  const id = nvl(props.id, "PORTAL" + defId);
+  const id = nvl(props.id, "PORTAL" + defId)!;
   const open = nvl(props.open, true);
 
   if (!open) return <></>;

@@ -28,7 +28,7 @@ import { HyraxHTMLRef } from "../types";
  *                                a direct HTML element, or null.
  * @param {K} type - The event type to listen for (e.g., "click", "mouseover").
  * @param {(event: HTMLElementEventMap[K]) => void} listener - The callback function invoked when the event occurs.
- * @param {React.DependencyList} dependecy - A dependency list that controls when the listener callback is updated.
+ * @param {React.DependencyList} dependency - A dependency list that controls when the listener callback is updated.
  *                                           The listener is memoized using these dependencies.
  * @param {boolean | AddEventListenerOptions} [options] - Optional event listener options, such as capture, once, or passive.
  *
@@ -41,10 +41,10 @@ export default function useHTMLEventListener<
   ref: HyraxHTMLRef<T>,
   type: K,
   listener: (event: HTMLElementEventMap[K]) => void,
-  dependecy: React.DependencyList,
+  dependency: React.DependencyList,
   options?: boolean | AddEventListenerOptions
 ): void {
-  const callback = useCallback(listener, [listener, ...dependecy]);
+  const callback = useCallback(listener, [listener, ...dependency]);
 
   const element =
     ref && typeof ref === "object" && "current" in ref ? ref.current : ref;

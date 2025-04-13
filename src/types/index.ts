@@ -1,5 +1,5 @@
 export * from "./AnyRecord.types";
-export * from "./AnyString";
+export * from "./AnyString.types";
 export * from "./Count.types";
 export * from "./Index.types";
 export * from "./Nullable.types";

@@ -21,7 +21,7 @@ import { UpdateHook } from "./types";
  *     <div>
  *       <input type="text" ref={inputRef} placeholder="Type here..." />
  *       <button onClick={update}>Show value</button>
- *       <p>Valor do input: {inputRef.current ? inputRef.current.value : ''}</p>
+ *       <p>Input Value: {inputRef.current ? inputRef.current.value : ''}</p>
  *       <p>Updates: {update.counter}</p>
  *       <small>Hook ID: {update.id}</small>
  *     </div>
