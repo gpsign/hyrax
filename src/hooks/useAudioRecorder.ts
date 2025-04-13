@@ -44,8 +44,8 @@ export function useAudioRecorder(): AudioRecorderHook {
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
-  const resolveAudio = useRef(noop);
-  const resolveStop = useRef(noop);
+  const resolveAudio = useRef<(value: Blob[]) => void>(noop);
+  const resolveStop = useRef<(value: void) => void>(noop);
 
   const mediaRecorder = mediaRecorderRef.current;
 

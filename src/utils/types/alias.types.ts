@@ -12,5 +12,10 @@ export type AliasProperties<
   T,
   D extends Partial<Record<keyof T, readonly string[]>>
 > = UnionToIntersection<
-  { [K in keyof D & keyof T]: AliasFor<T, K, D[K]> }[keyof D & keyof T]
+  {
+    [K in keyof D & keyof T]: D[K] extends readonly string[]
+      ? AliasFor<T, K, D[K]>
+      : // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+        {};
+  }[keyof D & keyof T]
 >;
