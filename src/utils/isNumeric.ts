@@ -3,9 +3,6 @@ import { Numeric } from "./types";
 /**
  * Checks if a value is a number or a string that can be coerced into a number.
  *
- * @param value - The value to check.
- * @returns {boolean} - `true` if the value can be coerced into a valid number, otherwise `false`.
- *
  * ### Example
  * ```ts
  * isNumber(42); // returns true
@@ -13,6 +10,10 @@ import { Numeric } from "./types";
  * isNumber("hello"); // returns false
  * isNumber(null); // returns false
  * ```
+ *
+ * @param value - The value to check.
+ * @returns {boolean} - `true` if the value can be coerced into a valid number, otherwise `false`.
+ *
  */
 export function isNumeric(value: unknown): value is Numeric {
   const type = typeof value;

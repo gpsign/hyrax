@@ -7,9 +7,6 @@ import { isNumeric } from "./isNumeric";
  * It handles different types including strings, numbers, arrays, functions, and objects with a `length` property.
  * If the value cannot be interpreted as having a length, it returns 0.
  *
- * @param value - The value whose length is to be determined.
- * @returns {number} - The length of the value. If the value is `null`, `undefined`, or cannot be determined to have a length, it returns 0.
- *
  * ### Example
  * ```ts
  * length("hello"); // returns 5
@@ -20,6 +17,10 @@ import { isNumeric } from "./isNumeric";
  * length(null); // returns 0
  * length(() => {}); // returns 0 (length of the function's argument list)
  * ```
+ *
+ * @param value - The value whose length is to be determined.
+ * @returns {number} - The length of the value. If the value is `null`, `undefined`, or cannot be determined to have a length, it returns 0.
+ *
  */
 export function length(value: unknown): number {
   if (value == null) return 0;
