@@ -1,6 +1,7 @@
 import * as hooks from "./hooks";
 import * as utils from "./utils";
 import * as components from "./components";
+import * as classes from "./classes";
 
 import { HyraxDOM } from "./dom";
 import { HyraxString } from "./string";
@@ -13,6 +14,7 @@ export * from "./components";
 export * from "./dom";
 export * from "./string";
 export * from "./number";
+export * from "./classes";
 
 const Hyrax = {
   health(): number {
@@ -22,6 +24,7 @@ const Hyrax = {
   ...utils,
   ...hooks,
   ...components,
+  ...classes,
   ...HyraxDOM,
   ...HyraxString,
   ...HyraxNumber,
