@@ -1,4 +1,4 @@
-import { clamp } from "../../utils";
+import { clamp } from "../../number";
 
 describe("clamp function - three arguments overload", () => {
   it("should return the value when within the bounds", () => {
