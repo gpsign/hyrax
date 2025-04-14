@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "dev": "ts-node src/index.ts",
-    "test": "jest",
+    "test": "jest --verbose",
     "test:utils": "jest test/utils",
     "lint": "eslint ."
   },
