@@ -16,6 +16,8 @@ export * from "./string";
 export * from "./number";
 export * from "./classes";
 
+export { hx } from "./components";
+
 const Hyrax = {
   health(): number {
     console.info("Hyrax is ready!");
