@@ -2,7 +2,7 @@
 import React, { JSX } from "react";
 import { HxExtraProps, HxProps, HxType } from "./types";
 
-const styleShortcuts: Readonly<(keyof React.CSSProperties)[]> = [
+const styleShortcuts = [
   "backgroundColor",
   "width",
   "height",
