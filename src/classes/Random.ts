@@ -360,7 +360,7 @@ const letters = [
   "y",
   "z",
 ];
-const uppercase = letters.map(String.prototype.toUpperCase);
+const uppercase = letters.map((s) => s.toUpperCase());
 const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const chars = [...letters, ...uppercase, ...numbers];
