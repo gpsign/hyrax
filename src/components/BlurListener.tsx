@@ -1,53 +1,23 @@
-import React, { createRef, useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useChildrenRefs } from "../hooks/useChildrenRefs";
+
+import { traceHierarchy } from "../utils";
 import { BlurListenerProps } from "./types";
-import { nvl, traceHierarchy } from "../utils";
-import { Any } from "../types";
 
 export function BlurListener({
   children,
   ignoreFocusRequirement,
   onBlur,
 }: BlurListenerProps) {
-  function getChildKey(child: React.ReactNode, index: number) {
-    if (!React.isValidElement(child)) return String(index);
-    return nvl(child.key, (child.props as Any)?.key, String(index)) as string;
-  }
-
-  const childRefs = useMemo(() => {
-    const map = new Map<string, React.RefObject<HTMLElement | null>>();
-    React.Children.forEach(children, (c, i) => {
-      const key = getChildKey(c, i);
-      map.set(key, createRef<HTMLElement>());
-    })!;
-    return map;
-  }, [children]);
+  const childRefs = useChildrenRefs(children);
 
   const active = useRef(false);
 
-  const childrenWithRefs = React.Children.map(children, (child, i) => {
-    if (!React.isValidElement(child)) return child;
-    const key = getChildKey(child, i);
-
-    const forward = nvl(
-      "ref" in child ? child.ref : null,
-      (child.props as Any)?.ref
-    ) as React.RefObject<HTMLElement | null> | null;
-
-    if (forward) {
-      childRefs.set(key, forward);
-    }
-
-    const ref = childRefs.get(key);
-
-    return React.cloneElement(child, {
-      ...(child.props ?? {}),
-      ref,
-    } as Any);
-  });
+  const childrenWithRefs = childRefs.getChildrenWithRefs();
 
   useEffect(() => {
     function compare(t: HTMLElement) {
-      return Array.from(childRefs.values()).some((c) => c.current === t);
+      return Array.from(childRefs).some((c) => c.current === t);
     }
 
     function traceClick(e: MouseEvent) {
