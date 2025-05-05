@@ -1,8 +1,6 @@
-import { PropsWithChildren, RefObject } from "react";
+import { PropsWithChildren } from "react";
 
 export type BlurHandler = (ev: MouseEvent) => void;
-
-export type ChildrenRefsMap = Map<string, RefObject<HTMLElement | null>>;
 
 export interface BlurListenerProps extends PropsWithChildren {
   onBlur?: BlurHandler;
