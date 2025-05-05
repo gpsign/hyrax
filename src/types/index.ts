@@ -6,3 +6,4 @@ export * from "./Nullable.types";
 export * from "./Nullun.types";
 export * from "./Widen.types";
 export * from "./HyraxHTMLRef.types";
+export * from "./Any.types";
