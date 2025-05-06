@@ -11,11 +11,18 @@
     "dev": "ts-node src/index.ts",
     "test": "jest --verbose",
     "test:utils": "jest test/utils",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "preversion": "npm test && npm run build",
+    "version": "git add -A dist",
+    "postversion": "npm publish",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gpsign/hyrax.git"
+  },
+  "publishConfig": {
+    "@gpsign:registry": "https://npm.pkg.github.com"
   },
   "author": "gpsign",
   "license": "MIT",
