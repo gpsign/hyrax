@@ -8,6 +8,7 @@
     "/dist"
   ],
   "scripts": {
+    "build": "tsc --noEmitOnError",
     "dev": "ts-node src/index.ts",
     "test": "jest --verbose",
     "test:utils": "jest test/utils",
